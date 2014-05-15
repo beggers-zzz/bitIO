@@ -39,8 +39,8 @@ func TestBasicFileRead(t *testing.T) {
 // ascending powers of two.
 func makeBasicFile() (err error) {
 	bytes := make([]byte, 10)
-	for i := uint8(0); i < uint8(len(bytes)); i++ {
-		bytes[i] = 1 << i
+	for i := 0; i < len(bytes); i++ {
+		bytes[i] = 1 << uint8(i)
  	}
  	err = ioutil.WriteFile(filename, bytes, 0644)
  	defer os.Remove(filename)

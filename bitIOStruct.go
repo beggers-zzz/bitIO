@@ -13,7 +13,7 @@ type bitIOStruct struct {
 }
 
 // Make a bitIOStruct on the passed File descriptor
-func makeBitIOStruct(file string) (b bitIOStruct, err error) {
+func newStruct(file string) (b bitIOStruct, err error) {
 	b.file, err = os.Open(file)
 	if err != nil {
 		return bitIOStruct{}, err

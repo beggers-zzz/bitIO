@@ -11,8 +11,8 @@ type BitReader struct {
 }
 
 // Set up and return a BitReader on the passed file.
-func MakeBitReader(file string) (b BitReader, err error) {
-	str, err := makeBitIOStruct(file)
+func NewReader(file string) (b BitReader, err error) {
+	str, err := newStruct(file)
 	return BitReader{str}, err
 }
 

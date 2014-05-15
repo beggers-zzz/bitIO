@@ -10,8 +10,8 @@ type BitWriter struct {
 }
 
 // Set up and return a BitWriter on the passed file.
-func MakeBitWriter(file string) (b BitWriter, err error) {
-	str, err := makeBitIOStruct(file)
+func NewWriter(file string) (b BitWriter, err error) {
+	str, err := newStruct(file)
 	return BitWriter{str}, err
 }
 

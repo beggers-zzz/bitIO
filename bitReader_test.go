@@ -1,7 +1,7 @@
 // Ben Eggers
 // GNU GPL'd
 
-// Tests the ByteReader
+// Tests the BitReader
 
 package bitIO
 

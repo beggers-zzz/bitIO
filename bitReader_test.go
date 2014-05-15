@@ -26,7 +26,10 @@ func TestNewReader(t *testing.T) {
 }
 
 func TestNewReaderReturnsErrorOnNonExistentFile(t *testing.T) {
-
+	_, err := NewReader(filename)
+	if err == nil {
+		t.Error("err should have been non-nil but was ", err)
+	}
 }
 
 // ReadBit tests

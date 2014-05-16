@@ -8,6 +8,7 @@ package bitIO
 
 import (
 	"errors"
+	"os"
 )
 
 type BitReader struct {
@@ -16,11 +17,16 @@ type BitReader struct {
 
 // Set up and return a BitReader on the passed file.
 func NewReader(file string) (b BitReader, err error) {
-	str, err := newStruct(file)
+	str, err := newStruct()
 	if err != nil {
 		return BitReader{}, err
 	}
+	// Now open the file for reading
 	b = BitReader{str}
+	b.File, err = os.Open(file)
+	if err != nil {
+		return BitReader{}, err
+	}
 	// This will make us grab the first byte on the first read
 	b.NumBits = 8
 	return b, err

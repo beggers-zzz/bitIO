@@ -45,6 +45,7 @@ func TestBasicFileRead(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+
 	br, err := NewReader(filename)
 	if err != nil {
 		t.Error(err)
@@ -79,7 +80,7 @@ func TestBasicFileRead(t *testing.T) {
 // ascending powers of two.
 func makeBasicFile() (err error) {
 	bytes := make([]byte, 8)
-	for i := 0; i < len(bytes) - 1; i++ {
+	for i := 0; i < len(bytes)-1; i++ {
 		bytes[i] = 1 << uint8(i)
 	}
 	err = ioutil.WriteFile(filename, bytes, 0644)

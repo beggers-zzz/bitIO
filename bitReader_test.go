@@ -100,8 +100,11 @@ func TestFileReadOffEndOfFile(t *testing.T) {
 }
 
 func TestMultiByteFileRead(t *testing.T) {
-	bytes := make([]byte, 4)
-	bytes[0] = 255 // all 1s
+	numBytes := 4
+	bytes := make([]byte, numBytes)
+	for i := 0; i < numBytes; i++ {
+		bytes[i] = 255 // all 1s
+	}
 
 	err := ioutil.WriteFile(filename, bytes, 0644)
 	defer os.Remove(filename)
@@ -115,7 +118,7 @@ func TestMultiByteFileRead(t *testing.T) {
 	}
 
 	// We should get all 1s
-	for i := 0; i < 8; i++ {
+	for i := 0; i < 8*numBytes; i++ {
 		bit, err := br.ReadBit()
 		if err != nil {
 			t.Error(err)

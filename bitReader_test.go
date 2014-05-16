@@ -72,7 +72,6 @@ func TestBasicFileRead(t *testing.T) {
 
 func TestFileReadOffEndOfFile(t *testing.T) {
 	bytes := make([]byte, 1)
-
 	err := ioutil.WriteFile(filename, bytes, 0644)
 	defer os.Remove(filename)
 	if err != nil {
@@ -85,7 +84,7 @@ func TestFileReadOffEndOfFile(t *testing.T) {
 	}
 
 	// get rid of those 8 bits
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 8; i++ {
 		_, err := br.ReadBit()
 		if err != nil {
 			// Something went wrong before we even got to what we're testing

@@ -30,7 +30,7 @@ func NewReader(file string) (b BitReader, err error) {
 // return a non-nil err iff the read failed, or on EOF
 func (b BitReader) ReadBit() (bit byte, err error) {
 	bit = (b.Bits[0] & (1 << 7)) >> 7 // get the highest-order bit
-	b.Bits[0] = b.Bits[0] * 2
+	b.Bits[0] = b.Bits[0] * 2         // get rid of the highest-order bit
 	b.NumBits++
 	if b.NumBits == 8 {
 		// we need the next byte!

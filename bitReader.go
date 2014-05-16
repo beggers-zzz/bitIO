@@ -22,14 +22,13 @@ func NewReader(file string) (b BitReader, err error) {
 		return BitReader{}, err
 	}
 	// Now open the file for reading
-	b = BitReader{str}
-	b.File, err = os.Open(file)
+	str.File, err = os.Open(file)
 	if err != nil {
 		return BitReader{}, err
 	}
 	// This will make us grab the first byte on the first read
-	b.NumBits = 8
-	return b, err
+	str.NumBits = 8
+	return BitReader{str}, err
 }
 
 // Returns the next bit on the file stream. Will always be 0 or 1. Will

@@ -29,7 +29,7 @@ func (b BitWriter) WriteBit(bit byte) (err error) {
 		}
 	}
 
-	b.Bits[0] += bit << b.NumBits
+	b.Bits[0] += bit << 7 - b.NumBits
 	b.NumBits++
 	return nil
 }

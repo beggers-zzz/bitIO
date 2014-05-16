@@ -41,7 +41,7 @@ func TestNewReaderReturnsErrorOnNonExistentFile(t *testing.T) {
 
 func TestBasicFileRead(t *testing.T) {
 	err := makeBasicFile()
-	defer os.Remove(filename)
+	//defer os.Remove(filename)
 	if err != nil {
 		t.Error(err)
 	}
@@ -52,7 +52,7 @@ func TestBasicFileRead(t *testing.T) {
 	}
 
 	// We should get 7 0's
-	for i := 0; i < 7; i++ {
+	for i := 0; i < 8; i++ {
 		bit, err := br.ReadBit()
 		if err != nil {
 			t.Error(err)
@@ -79,9 +79,9 @@ func TestBasicFileRead(t *testing.T) {
 // Makes a basic file to be used by the test suite. File bytes will be
 // ascending powers of two.
 func makeBasicFile() (err error) {
-	bytes := make([]byte, 8)
+	bytes := make([]byte, 9)
 	for i := 0; i < len(bytes)-1; i++ {
-		bytes[i] = 1 << uint8(i)
+		bytes[i] = 1 << uint(i)
 	}
 	err = ioutil.WriteFile(filename, bytes, 0644)
 	return err

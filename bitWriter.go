@@ -22,24 +22,24 @@ func (b BitWriter) WriteBit(bit byte) (err error) {
 		return errors.New("Invalid bit to write.")
 	}
 
-	if b.numBits == 8 {
+	if b.NumBits == 8 {
 		err = b.flush()
 		if err != nil {
 			return err
 		}
 	}
 
-	b.bits[0] += bit << b.numBits
-	b.numBits++
+	b.Bits[0] += bit << b.NumBits
+	b.NumBits++
 	return nil
 }
 
 // Flushes the current byte out to disk, padding with 0s if necessary.
 func (b BitWriter) flush() (err error) {
-	for b.numBits != 8 {
+	for b.NumBits != 8 {
 		b.WriteBit(0)
 	}
-	_, err = b.file.Write(b.bits)
+	_, err = b.File.Write(b.Bits)
 	return err
 }
 
@@ -50,5 +50,5 @@ func (b BitWriter) Close() (err error) {
 	if err != nil {
 		return err
 	}
-	return b.file.Close()
+	return b.File.Close()
 }

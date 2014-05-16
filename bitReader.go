@@ -21,8 +21,8 @@ func NewReader(file string) (b BitReader, err error) {
 		return BitReader{}, err
 	}
 	b = BitReader{str}
-	// We need to initialize it on a byte!
-	err = b.nextByte()
+	// This will make us grab the first byte on the first read
+	b.NumBits = 8
 	return b, err
 }
 

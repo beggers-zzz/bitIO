@@ -17,10 +17,7 @@ type BitReader struct {
 
 // Set up and return a BitReader on the passed file.
 func NewReader(file string) (b BitReader, err error) {
-	str, err := newStruct()
-	if err != nil {
-		return BitReader{}, err
-	}
+	str := newStruct()
 	// Now open the file for reading
 	str.File, err = os.Open(file)
 	if err != nil {

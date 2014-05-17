@@ -15,10 +15,7 @@ type BitWriter struct {
 // Set up and return a BitWriter on the passed file. Truncates the file if
 // it already exists, be careful!
 func NewWriter(file string) (b BitWriter, err error) {
-	str, err := newStruct()
-	if err != nil {
-		return BitWriter{}, err
-	}
+	str := newStruct()
 
 	// Now open the file for writing
 	str.File, err = os.Create(file)

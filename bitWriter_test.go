@@ -6,22 +6,30 @@
 package bitIO
 
 import (
-	"io/ioutil"
+	// "io/ioutil"
 	"os"
 	"testing"
 )
-
-// globals
-var filename = ".test"
 
 ////////////////////////////////////////////////////////////////////////////////
 // NewWriter tests
 ////////////////////////////////////////////////////////////////////////////////
 
-func TestNothing(t *testing.T) {
-	// do nothing
+func TestNewWriter(t *testing.T) {
+	bw, err := NewWriter(filename)
+	defer os.Remove(filename) // we don't want it to stick around after the test
+	if err != nil {
+		t.Error(err)
+	}
+	_, err = os.Open(filename) // make sure the file is there
+	if err != nil {
+		t.Error(err)
+	}
+	err = bw.Close()
+	if err != nil {
+		t.Error(err)
+	}
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // WriteBit tests

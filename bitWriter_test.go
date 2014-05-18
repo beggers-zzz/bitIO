@@ -100,7 +100,7 @@ func TestWritePadsWithZeroes(t *testing.T) {
 func TestWriteMultipleBits(t *testing.T) {
 	numBytes := 4
 	bw, err := NewWriter(filename)
-	//defer os.Remove(filename)
+	defer os.Remove(filename)
 	if err != nil {
 		t.Error(err)
 	}

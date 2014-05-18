@@ -49,6 +49,7 @@ func (b *BitWriter) flush() (err error) {
 	}
 	_, err = b.File.Write(b.Bits)
 	b.NumBits = 0
+	b.Bits[0] = 0
 	return err
 }
 

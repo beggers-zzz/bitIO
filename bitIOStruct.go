@@ -7,7 +7,7 @@ import "os"
 
 // A struct useful for both bitReader and bitWriter
 type bitIOStruct struct {
-	Bits    []byte // should ALWAYS have length 1
+	Bits    []byte // buffer, should ALWAYS have length 1
 	NumBits uint8
 	File    *os.File
 }

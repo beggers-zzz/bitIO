@@ -35,7 +35,7 @@ func TestNewWriter(t *testing.T) {
 // WriteBit tests
 ////////////////////////////////////////////////////////////////////////////////
 
-func TestWriteBasic(t *testing.T) {
+func TestWriteSingleByte(t *testing.T) {
 	bw, err := NewWriter(filename)
 	defer os.Remove(filename)
 	if err != nil {
@@ -97,7 +97,7 @@ func TestWritePadsWithZeroes(t *testing.T) {
 	}
 }
 
-func TestWriteMultipleBits(t *testing.T) {
+func TestWriteMultipleSameBytes(t *testing.T) {
 	numBytes := 4
 	bw, err := NewWriter(filename)
 	defer os.Remove(filename)
@@ -131,3 +131,4 @@ func TestWriteMultipleBits(t *testing.T) {
 		}
 	}
 }
+

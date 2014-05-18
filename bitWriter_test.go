@@ -6,7 +6,7 @@
 package bitIO
 
 import (
-	// "io/ioutil"
+	"io/ioutil"
 	"os"
 	"testing"
 )
@@ -34,3 +34,36 @@ func TestNewWriter(t *testing.T) {
 ////////////////////////////////////////////////////////////////////////////////
 // WriteBit tests
 ////////////////////////////////////////////////////////////////////////////////
+
+func TestWriteBasic(t *testing.T) {
+	bw, err := NewWriter(filename)
+	defer os.Remove(filename)
+	if err != nil {
+		t.Error(err)
+	}
+
+	// Let's write some bits
+	for i := 0; i < 8; i++ {
+		bw.WriteBit(1)
+	}
+
+	// And close to make sure they're written out
+	bw.Close()
+
+	// Now let's check the file is there there
+	b, err := ioutil.ReadFile(filename)
+	if err != nil {
+		// Something went badly on opening? Weird
+		t.Error(err)
+	}
+
+	if len(b) != 1 {
+		// We read more bytes than we should have, error
+		t.Error("Got more bytes than we should have:", len(b))
+	}
+
+	if b[0] != 255 {
+		t.Error("Should have gotten all 1's (255), got", err)
+	}
+
+}

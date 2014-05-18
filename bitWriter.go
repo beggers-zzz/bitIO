@@ -43,10 +43,12 @@ func (b *BitWriter) WriteBit(bit byte) (err error) {
 
 // Flushes the current byte out to disk, padding with 0s if necessary.
 func (b *BitWriter) flush() (err error) {
-	for b.NumBits != 8 {
+	for b.NumBits < 8 {
+		// Pad with 0s
 		b.WriteBit(0)
 	}
 	_, err = b.File.Write(b.Bits)
+	b.NumBits = 0
 	return err
 }
 

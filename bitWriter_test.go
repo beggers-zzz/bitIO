@@ -50,7 +50,7 @@ func TestWriteBasic(t *testing.T) {
 	// And close to make sure they're written out
 	bw.Close()
 
-	// Now let's check the file is there there
+	// Now let's check the file is there	 there
 	b, err := ioutil.ReadFile(filename)
 	if err != nil {
 		// Something went badly on opening? Weird
@@ -63,7 +63,36 @@ func TestWriteBasic(t *testing.T) {
 	}
 
 	if b[0] != 255 {
-		t.Error("Should have gotten all 1's (255), got", err)
+		t.Error("Should have gotten all 1's (255), got", b[0])
+	}
+}
+
+func TestWritePadsWithZeroes(t *testing.T) {
+	bw, err := NewWriter(filename)
+	defer os.Remove(filename)
+	if err != nil {
+		t.Error(err)
 	}
 
+	// Let's write one bit
+	bw.WriteBit(1)
+
+	// And close to make sure it's written out. It should be padded with 0's
+	bw.Close()
+
+	// Now let's check the file is there	 there
+	b, err := ioutil.ReadFile(filename)
+	if err != nil {
+		// Something went badly on opening? Weird
+		t.Error(err)
+	}
+
+	if len(b) != 1 {
+		// We read more bytes than we should have, error
+		t.Error("Got more bytes than we should have:", len(b))
+	}
+
+	if b[0] != 128 {
+		t.Error("Should have gotten all 0b1000000 (128), got", b[0])
+	}
 }

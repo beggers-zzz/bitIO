@@ -18,7 +18,7 @@ func NewWriter(file string) (b BitWriter, err error) {
 	str := newStruct()
 
 	// Now open the file for writing
-	str.File, err = os.Create(file)
+	str.file, err = os.Create(file)
 	return BitWriter{str}, err
 }
 
@@ -29,27 +29,27 @@ func (b *BitWriter) WriteBit(bit byte) (err error) {
 		return errors.New("Invalid bit to write.")
 	}
 
-	if b.NumBits == 8 {
+	if b.numBits == 8 {
 		err = b.flush()
 		if err != nil {
 			return err
 		}
 	}
 
-	b.Bits[0] += bit << (7 - b.NumBits)
-	b.NumBits++
+	b.bits[0] += bit << (7 - b.numBits)
+	b.numBits++
 	return nil
 }
 
 // Flushes the current byte out to disk, padding with 0s if necessary.
 func (b *BitWriter) flush() (err error) {
-	for b.NumBits < 8 {
+	for b.numBits < 8 {
 		// Pad with 0s
 		b.WriteBit(0)
 	}
-	_, err = b.File.Write(b.Bits)
-	b.NumBits = 0
-	b.Bits[0] = 0
+	_, err = b.file.Write(b.bits)
+	b.numBits = 0
+	b.bits[0] = 0
 	return err
 }
 
@@ -60,5 +60,5 @@ func (b *BitWriter) Close() (err error) {
 	if err != nil {
 		return err
 	}
-	return b.File.Close()
+	return b.file.Close()
 }

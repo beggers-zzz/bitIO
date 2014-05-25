@@ -19,13 +19,23 @@ type BitReader struct {
 func NewReader(file string) (b BitReader, err error) {
 	str := newStruct()
 	// Now open the file for reading
-	str.File, err = os.Open(file)
+	str.file, err = os.Open(file)
 	if err != nil {
 		return BitReader{}, err
 	}
 	// This will make us grab the first byte on the first read
-	str.NumBits = 8
+	str.numBits = 8
 	return BitReader{str}, err
+}
+
+// Creates a new BitReader on the passed file descriptor, instead of from a 
+// file name like NewReader. This allows for reading certain parts of a file
+// by bit, and parts the normal way.
+func NewReaderOnFile(file *os.File) (b BitReader, err error) {
+	str := newStruct()
+	str.file = file
+	str.numBits = 8
+	return BitReader{str}, nil
 }
 
 func NewReaderFromFile(file *os.File) (b BitReader, err error) {
@@ -36,29 +46,29 @@ func NewReaderFromFile(file *os.File) (b BitReader, err error) {
 // Returns the next bit on the file stream. Will always be 0 or 1. Will
 // return a non-nil err iff the read failed, or on EOF
 func (b *BitReader) ReadBit() (bit byte, err error) {
-	if b.NumBits == 8 {
+	if b.numBits == 8 {
 		// we need the next byte!
 		err = b.nextByte()
 	}
-	bit = (b.Bits[0] & (1 << 7)) >> 7 // get the highest-order bit
-	b.Bits[0] = b.Bits[0] * 2         // get rid of the highest-order bit
-	b.NumBits++
+	bit = (b.bits[0] & (1 << 7)) >> 7 // get the highest-order bit
+	b.bits[0] = b.bits[0] * 2         // get rid of the highest-order bit
+	b.numBits++
 	return bit, err
 }
 
 // Closes the reader, closing its associated file descriptor
 func (b *BitReader) Close() (err error) {
-	return b.File.Close()
+	return b.file.Close()
 }
 
 func (b *BitReader) nextByte() (err error) {
-	n, err := b.File.Read(b.Bits)
+	n, err := b.file.Read(b.bits)
 	if err != nil {
 		return err
 	}
 	if n == 0 {
 		return errors.New("Couldn't read from file")
 	}
-	b.NumBits = 0
+	b.numBits = 0
 	return nil
 }

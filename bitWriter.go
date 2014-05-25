@@ -22,6 +22,15 @@ func NewWriter(file string) (b BitWriter, err error) {
 	return BitWriter{str}, err
 }
 
+// Creates a new BitWriter on the passed file descriptor instead of a filename
+// like NewWriter. This allows for writing bits to only part of the file, and doing
+// file IO the normal way on other parts.
+func NewWriterOnFile(file *os.File) (b BitWriter, err error) {
+	str := newStruct()
+	str.file = file
+	return BitWriter{str}, nil
+}
+
 // Writes one bit. If the passed int8 is 1, writes a one. If it's 0,
 // writes a 0. Else, returns a non-nil error.
 func (b *BitWriter) WriteBit(bit byte) (err error) {

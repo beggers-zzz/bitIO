@@ -31,6 +31,44 @@ func TestNewWriter(t *testing.T) {
 	}
 }
 
+func TestNewWriterOnFileDescriptor(t *testing.T) {
+	file, err := os.Create(filename)
+	defer os.Remove(filename)
+	if err != nil {
+		t.Error(err)
+	}
+
+	bw, err := NewWriterOnFile(file)
+	if err != nil {
+		t.Error(err)
+	}
+
+	for i := 0; i < 8; i++ {
+		err = bw.WriteBit(1)
+		if err != nil {
+			t.Error(err)
+		}
+	}
+
+	err = bw.Close()
+	if err != nil {
+		t.Error(err)
+	}
+
+	contents, err := ioutil.ReadFile(filename)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(contents) != 1 {
+		t.Error("File contents were wrong!")
+	}
+
+	if contents[0] != 255 {
+		t.Error("Wrong bits written!")
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // WriteBit tests
 ////////////////////////////////////////////////////////////////////////////////

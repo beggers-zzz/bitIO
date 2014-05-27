@@ -213,11 +213,11 @@ func TestWriteMultipleDifferentBytes(t *testing.T) {
 		t.Error("Should have been all 0b1000000 (128), got:", b[0])
 	}
 
-		if b[1] != 0 {
+	if b[1] != 0 {
 		t.Error("Should have been all 0s, got:", b[1])
 	}
 
-		if b[2] != 170 {
+	if b[2] != 170 {
 		t.Error("Should have been all 0b10101010 (170), got:", b[2])
 	}
 }

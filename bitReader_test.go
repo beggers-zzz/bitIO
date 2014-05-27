@@ -38,6 +38,39 @@ func TestNewReaderReturnsErrorOnNonExistentFile(t *testing.T) {
 	}
 }
 
+func TestNewReaderOnFileDescriptor(t *testing.T) {
+	bytes := make([]byte, 1)
+	bytes[0] = 255 // all 1s
+
+	err := ioutil.WriteFile(filename, bytes, 0644)
+	defer os.Remove(filename)
+	if err != nil {
+		t.Error(err)
+	}
+
+	file, err := os.Open(filename)
+	if err != nil {
+		t.Error(err)
+	}
+
+	br, err := NewReaderOnFile(file)
+	if err != nil {
+		t.Error(err)
+	}
+
+	for i := 0; i < 8; i++ {
+		bit, err := br.ReadBit()
+		if err != nil {
+			t.Error(err)
+		}
+		if bit != 1 {
+			t.Error("Got wrong bit! Should have been 1.")
+		}
+	}
+
+	br.Close()
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // ReadBit tests
 ////////////////////////////////////////////////////////////////////////////////

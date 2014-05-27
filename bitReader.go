@@ -28,7 +28,7 @@ func NewReader(file string) (b BitReader, err error) {
 	return BitReader{str}, err
 }
 
-// Creates a new BitReader on the passed file descriptor, instead of from a 
+// Creates a new BitReader on the passed file descriptor, instead of from a
 // file name like NewReader. This allows for reading certain parts of a file
 // by bit, and parts the normal way.
 func NewReaderOnFile(file *os.File) (b BitReader, err error) {

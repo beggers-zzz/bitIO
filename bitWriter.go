@@ -71,3 +71,7 @@ func (b *BitWriter) Close() (err error) {
 	}
 	return b.file.Close()
 }
+
+func (b *BitWriter) CloseAndReturnFile() (f *os.File, err error) {
+	return b.file, b.flush()
+}

@@ -48,7 +48,7 @@ func NewReaderFromFile(file *os.File) (b BitReader, err error) {
 func (b *BitReader) ReadBit() (bit byte, err error) {
 	if b.numBits == 8 {
 		// we need the next byte!
-		err = b.nextByte()
+		err = b.NextByte()
 	}
 	bit = (b.bits[0] & (1 << 7)) >> 7 // get the highest-order bit
 	b.bits[0] = b.bits[0] * 2         // get rid of the highest-order bit
@@ -61,7 +61,7 @@ func (b *BitReader) Close() (err error) {
 	return b.file.Close()
 }
 
-func (b *BitReader) nextByte() (err error) {
+func (b *BitReader) NextByte() (err error) {
 	n, err := b.file.Read(b.bits)
 	if err != nil {
 		return err

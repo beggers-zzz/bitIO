@@ -73,5 +73,7 @@ func (b *BitWriter) Close() (err error) {
 }
 
 func (b *BitWriter) CloseAndReturnFile() (f *os.File, err error) {
-	return b.file, b.flush()
+	file := b.file
+	b.file = nil
+	return file, b.flush()
 }

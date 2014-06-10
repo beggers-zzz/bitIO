@@ -7,7 +7,6 @@
 package bitIO
 
 import (
-	"errors"
 	"os"
 )
 
@@ -57,12 +56,9 @@ func (b *BitReader) Close() (err error) {
 }
 
 func (b *BitReader) nextByte() (err error) {
-	n, err := b.file.Read(b.bits)
+	_, err = b.file.Read(b.bits)
 	if err != nil {
 		return err
-	}
-	if n == 0 {
-		return errors.New("Couldn't read from file")
 	}
 	b.numBits = 0
 	return nil
